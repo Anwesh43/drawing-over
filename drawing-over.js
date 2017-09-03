@@ -52,3 +52,29 @@ class Point {
         this.y = y
     }
 }
+class MouseHandler {
+    constructor(screen) {
+        this.screen = screen
+    }
+    handleMouse() {
+        this.down = false
+        this.screen.canvas.onmousedown = (event) => {
+            if(!this.down) {
+                this.shape = new Shape()
+                this.down = true
+                this.shape.addPoint(event.offsetX,event.offsetY)
+                this.screen.shapes.push(this.shape)
+            }
+        }
+        this.screen.canvas.onmousemove = (event) => {
+            if(this.down) {
+                this.shape.addPoint(event.offsetX,event.offsetY)
+            }
+        }
+        this.screen.canvas.onmouseup = (event) => {
+            if(this.down) {
+                this.down = false
+            }
+        }
+    }
+}
