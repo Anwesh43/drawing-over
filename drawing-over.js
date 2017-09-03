@@ -1,4 +1,3 @@
-
 document.onreadystatechange = () =>{
     var screen = new DrawingOverScreen(document.body.offsetWidth,document.body.offsetHeight)
     screen.handleShapeCreation()
@@ -19,11 +18,16 @@ class DrawingOverScreen {
         this.context = this.canavs.getContext('2d')
     }
     handleShapeCreation() {
-
+        this.mouseHandler = new MouseHandler(this)
+        this.mouseHandler.handleMouse()
     }
-    drawShapes(context) {
-        context.globalAlpha = 0
-        context.fillRect(0,0,canvas.width,canvas.height)
+    drawShapes() {
+        this.context.clearRect(0,0,canvas.width,canvas.height)
+        this.context.globalAlpha = 0
+        this.context.fillRect(0,0,canvas.width,canvas.height)
+        this.shapes.forEach((shape)=>{
+            shape.draw(this.context)
+        })
     }
 }
 class Shape {
@@ -69,6 +73,7 @@ class MouseHandler {
         this.screen.canvas.onmousemove = (event) => {
             if(this.down) {
                 this.shape.addPoint(event.offsetX,event.offsetY)
+                this.screen.drawShapes()
             }
         }
         this.screen.canvas.onmouseup = (event) => {
