@@ -15,19 +15,25 @@ class DrawingOverScreen {
         this.canvas.style.top = 0
         document.body.appendChild(this.canvas)
         this.shapes = []
-        this.context = this.canavs.getContext('2d')
+        this.context = this.canvas.getContext('2d')
     }
     handleShapeCreation() {
         this.mouseHandler = new MouseHandler(this)
         this.mouseHandler.handleMouse()
     }
     drawShapes() {
-        this.context.clearRect(0,0,canvas.width,canvas.height)
+        const w = this.canvas.width,h = this.canvas.height
+        this.context.clearRect(0,0,w,h)
         this.context.globalAlpha = 0
-        this.context.fillRect(0,0,canvas.width,canvas.height)
+        this.context.fillRect(0,0,w,h)
+        this.context.strokeStyle = 'red'
+        this.context.lineWidth = 5
+        this.context.lineCap = "round"
+        this.context.globalAlpha = 1
         this.shapes.forEach((shape)=>{
             shape.draw(this.context)
         })
+        console.log(this.shapes)
     }
 }
 class Shape {
